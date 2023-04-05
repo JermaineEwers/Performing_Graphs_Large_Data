@@ -159,7 +159,7 @@ class MapUtilsTests extends AnyFlatSpec {
     testgraph.edges.append(ab)
     testgraph.edges.append(bc)
     testgraph.edges.append(cd)
-assert(MapUtils.computeOutgoingEdges(testgraph)("a")==mutable.Seq(ab,bc,cd))
+assert(MapUtils.computeOutgoingEdges(testgraph)("a")==mutable.Seq(ab))
     testgraph.intersections("e") = e
     val ae = new Edge(a, e, "ad")
     val ed = new Edge(e, d, "ed")
