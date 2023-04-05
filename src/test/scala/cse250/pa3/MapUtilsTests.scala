@@ -77,10 +77,10 @@ class MapUtilsTests extends AnyFlatSpec {
     val d1 = Intersection("d", 3, 1)
 
 
-    testgraph1.intersections("a") = a
-    testgraph1.intersections("b") = b
-    testgraph1.intersections("c") = c
-   testgraph1.intersections("d") = d
+    testgraph1.intersections("a") = a1
+    testgraph1.intersections("b") = b1
+    testgraph1.intersections("c") = c1
+   testgraph1.intersections("d") = d1
     val ab1 = new Edge(a1, b1, "ab")
     val ac1 = new Edge(a1, c1, "ac")
     val bd1 = new Edge(b1, d1, "bd")
