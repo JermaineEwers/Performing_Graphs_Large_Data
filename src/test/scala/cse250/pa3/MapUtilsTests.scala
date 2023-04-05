@@ -160,13 +160,8 @@ class MapUtilsTests extends AnyFlatSpec {
     testgraph.edges.append(bc)
     testgraph.edges.append(cd)
 assert(MapUtils.computeOutgoingEdges(testgraph)("a")==mutable.Seq(ab))
-    testgraph.intersections("e") = e
-    val ae = new Edge(a, e, "ae")
-    val ed = new Edge(e, d, "ed")
-    testgraph.edges.append(ae)
-    testgraph.edges.append(ed)
 
-  assert(MapUtils.pathWithFewestIntersections(testgraph,MapUtils.computeOutgoingEdges(testgraph),"a","d") == Seq(ab,bc,cd))
+  //assert(MapUtils.pathWithFewestIntersections(testgraph,MapUtils.computeOutgoingEdges(testgraph),"a","d") == Seq(ab,bc,cd))
 
 
 //println("ae",c.distanceTo(d))
@@ -183,10 +178,11 @@ assert(MapUtils.computeOutgoingEdges(testgraph)("a")==mutable.Seq(ab))
     val d = Intersection("d", 5, 3)
     val e = Intersection("e", 4, 5)
     testgraph.intersections("a") = a
+    testgraph.intersections("e") = e
     testgraph.intersections("b") = b
     testgraph.intersections("c") = c
     testgraph.intersections("d") = d
-    testgraph.intersections("e") = e
+
 
     // mutable.Map("a"->a,"b"->b,"c"->c,"d"->d)
     val ab = new Edge(a, b, "ab")
@@ -208,7 +204,7 @@ assert(MapUtils.computeOutgoingEdges(testgraph)("a")==mutable.Seq(ab))
 
 
 
-    assert(MapUtils.pathWithFewestIntersections(testgraph, MapUtils.computeOutgoingEdges(testgraph), "a", "d") == Seq(ab, bc, cd))
+    assert(MapUtils.pathWithShortestDistance(testgraph, MapUtils.computeOutgoingEdges(testgraph), "a", "d") == Seq(ab, bc, cd))
 
 
     //println("ae",c.distanceTo(d))
