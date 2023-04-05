@@ -20,7 +20,7 @@ import scala.xml.XML
 
 class StreetGraph
 {
-  /** 
+  /**
    * A translation from IntersectionID to the location of the intersection.
    */
   val intersections = mutable.Map[String, Intersection]()
