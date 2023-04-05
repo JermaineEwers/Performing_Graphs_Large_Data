@@ -166,10 +166,10 @@ assert(MapUtils.computeOutgoingEdges(testgraph)("a")==mutable.Seq(ab))
     testgraph.edges.append(ae)
     testgraph.edges.append(ed)
 
-    assert(MapUtils.pathWithFewestIntersections(testgraph,MapUtils.computeOutgoingEdges(testgraph),"a","d") == mutable.Seq(ab,bc,cd))
+  assert(MapUtils.pathWithFewestIntersections(testgraph,MapUtils.computeOutgoingEdges(testgraph),"a","d") == Seq(ab,bc,cd))
 
 
-
+//println("ae",c.distanceTo(d))
 
 
   }
