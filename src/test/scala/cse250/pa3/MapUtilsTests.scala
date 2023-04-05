@@ -174,6 +174,48 @@ assert(MapUtils.computeOutgoingEdges(testgraph)("a")==mutable.Seq(ab))
 
   }
 
+  it must "test3" in {
+    var testgraph = new StreetGraph
+
+    val a = Intersection("a", 1, 3)
+    val b = Intersection("b", 3, 3)
+    val c = Intersection("c", 4, 3)
+    val d = Intersection("d", 5, 3)
+    val e = Intersection("e", 4, 5)
+    testgraph.intersections("a") = a
+    testgraph.intersections("b") = b
+    testgraph.intersections("c") = c
+    testgraph.intersections("d") = d
+    testgraph.intersections("e") = e
+
+    // mutable.Map("a"->a,"b"->b,"c"->c,"d"->d)
+    val ab = new Edge(a, b, "ab")
+    val ae = new Edge(a, e, "ae")
+    val ed = new Edge(e, d, "ed")
+    val bc = new Edge(b, c, "bc")
+    val cd = new Edge(c, d, "cd")
+
+
+    testgraph.edges.append(ab)
+    testgraph.edges.append(ae)
+    testgraph.edges.append(ed)
+    testgraph.edges.append(bc)
+    testgraph.edges.append(cd)
+
+
+
+
+
+
+
+    assert(MapUtils.pathWithFewestIntersections(testgraph, MapUtils.computeOutgoingEdges(testgraph), "a", "d") == Seq(ab, bc, cd))
+
+
+    //println("ae",c.distanceTo(d))
+
+
+  }
+
 
 
 }
