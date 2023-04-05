@@ -131,4 +131,49 @@ class MapUtilsTests extends AnyFlatSpec {
     println("bd", b.distanceTo(d))
     println("ad", a.distanceTo(d))*/
   }
+
+
+  it must "test2" in {
+    var testgraph = new StreetGraph
+
+    val a = Intersection("a", 1, 3)
+    val b = Intersection("b", 3, 3)
+    val c = Intersection("c", 4, 3)
+    val d = Intersection("d", 5, 3)
+    val e = Intersection("e", 3.5, 5.5)
+    testgraph.intersections("a") = a
+    testgraph.intersections("b") = b
+    testgraph.intersections("c") = c
+    testgraph.intersections("d") = d
+
+
+
+    // mutable.Map("a"->a,"b"->b,"c"->c,"d"->d)
+    val ab = new Edge(a, b, "ab")
+    val bc = new Edge(b, c, "bc")
+    val cd = new Edge(c, d, "cd")
+
+
+
+
+    testgraph.edges.append(ab)
+    testgraph.edges.append(bc)
+    testgraph.edges.append(cd)
+assert(MapUtils.computeOutgoingEdges(testgraph)("a")==mutable.Seq(ab,bc,cd))
+    testgraph.intersections("e") = e
+    val ae = new Edge(a, e, "ad")
+    val ed = new Edge(e, d, "ed")
+    testgraph.edges.append(ae)
+    testgraph.edges.append(ed)
+
+    assert(MapUtils.pathWithFewestIntersections(testgraph,MapUtils.computeOutgoingEdges(testgraph),"a","d") == mutable.Seq(ab,bc,cd))
+
+
+
+
+
+  }
+
+
+
 }
