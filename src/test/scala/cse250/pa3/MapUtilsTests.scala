@@ -159,7 +159,8 @@ class MapUtilsTests extends AnyFlatSpec {
     testgraph.edges.append(ab)
     testgraph.edges.append(bc)
     testgraph.edges.append(cd)
-assert(MapUtils.computeOutgoingEdges(testgraph)("a")==mutable.Seq(ab))
+    val test: mutable.Map[String, mutable.Seq[Edge]]=mutable.Map("a"->mutable.Seq(ab),"b"->mutable.Seq(bc),"c"->mutable.Seq(cd))
+assert(MapUtils.computeOutgoingEdges(testgraph)==test)
 
   //assert(MapUtils.pathWithFewestIntersections(testgraph,MapUtils.computeOutgoingEdges(testgraph),"a","d") == Seq(ab,bc,cd))
 
