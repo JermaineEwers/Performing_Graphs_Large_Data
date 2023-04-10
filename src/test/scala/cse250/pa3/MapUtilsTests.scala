@@ -202,7 +202,7 @@ class MapUtilsTests extends AnyFlatSpec {
     testgraph.edges.append(cd)
     testgraph.edges.append(ad)
 
-
+    println(MapUtils.computeOutgoingEdges(testgraph)("a"))
     assert(MapUtils.computeOutgoingEdges(testgraph)("a") == mutable.Seq(ab, ac, ad))
    // println(testgraph.edges)
   }

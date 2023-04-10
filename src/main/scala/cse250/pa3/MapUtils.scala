@@ -30,19 +30,32 @@ object MapUtils
   def computeOutgoingEdges(graph: StreetGraph): mutable.Map[String, mutable.Seq[Edge]] =
   {
    val edges=graph.edges
-    val inter=graph.intersections.keys
     var mapp: mutable.Map[String, mutable.Seq[Edge]]=mutable.Map()
-    for(key<-inter){
+      for(x<-edges){
+       var nn =mapp.getOrElse(x.from.id,1)
+        if(nn!=1){
+          mapp+=(x.from.id-> (mapp(x.from.id):+x))   //mutable.Seq(mapp(x.from.id).toSeq,x))
+        }else(
+
+        mapp+=(x.from.id->mutable.Seq(x))
+
+          )
+
+      }
+   /* while(n<interlen){
       var lis:  mutable.Seq[Edge]= mutable.Seq()
-    for(i<-edges){
-     if(i.from.id==key){
-       lis= lis :+(i)
+      var i: Int=0
+    while(i<ed){
+     if(edges(i).from.id==inter(n)){
+       lis= lis :+(edges(i))
      }
+      i+=1
     }
       if(!lis.isEmpty) {
-        mapp += (key -> lis)
+        mapp += (inter(n) -> lis)
       }
-  }
+      n+=1
+  }*/
 
     mapp
 
@@ -81,25 +94,49 @@ object MapUtils
 
       result=result :+ toexplore.dequeue()
     }
-*/
-
+*/ //var lis: mutable.Queue[Edge] = mutable.Queue()
     def computeOutgoingEdges(graph: StreetGraph): mutable.Map[String, mutable.Queue[Edge]] = {
+    val edges = graph.edges
+    var mapp: mutable.Map[String, mutable.Queue[Edge]] = mutable.Map()
+    for (x <- edges) {
+      var nn = mapp.getOrElse(x.from.id, 1)
+      if (nn != 1) {
+        mapp += (x.from.id -> (mapp(x.from.id) :+ x)) //mutable.Seq(mapp(x.from.id).toSeq,x))
+      } else (
+
+        mapp += (x.from.id -> mutable.Queue(x))
+
+        )
+
+    }
+      mapp
+    }
+   /* def computeOutgoingEdges(graph: StreetGraph): mutable.Map[String, mutable.Queue[Edge]] = {
       val edges = graph.edges
-      val inter = graph.intersections.keys
+      val inter = graph.intersections.keys.toList
       var mapp: mutable.Map[String, mutable.Queue[Edge]] = mutable.Map()
-      for (key <- inter) {
+      val interlen: Int = inter.length
+      var n: Int = 0
+      var ed: Int = edges.length
+
+      while (n < interlen) {
         var lis: mutable.Queue[Edge] = mutable.Queue()
-        for (i <- edges) {
-          if (i.from.id == key) {
-            lis.enqueue(i)
+        var i: Int = 0
+        while (i < ed) {
+          if (edges(i).from.id == inter(n)) {
+            lis = lis :+ (edges(i))
           }
+          i += 1
         }
-        mapp += (key -> lis)
+        if (!lis.isEmpty) {
+          mapp += (inter(n) -> lis)
+        }
+        n += 1
       }
 
       mapp
 
-    }
+    }*/
 
 var edges =computeOutgoingEdges(graph)
 //var edges: mutable.Queue[mutable.Map[String, mutable.Seq[Edge]]]=outgoingEdges
@@ -208,47 +245,27 @@ if( edges(edges(from)(0).to.id).isEmpty) {
     var i: Int = 0
     var listofedge: List[Edge] = List()
     var result: List[Edge] = List()
-    /* var result:List[Edge]=List()
-    var i: Int=0
-    var edlist = new mutable.Queue[Edge]()
-    var toexplore = new mutable.Queue[Edge]()
-    toexplore.enqueue(outgoingEdges(from)(0))
-    for(inter<-graph.intersections.keys){
-      for(ed<-outgoingEdges(inter)){
-     // listofedge=listofedge :+ed
-      edlist.enqueue(ed)
-      }
-    }
-    while(!edlist.isEmpty){
-      /*if(toexplore(0).to.id==to){
-        result=result :+ toexplore(0)
-      }*/
-
-      result=result :+ toexplore.dequeue()
-    }
-    */
 
     def computeOutgoingEdges(graph: StreetGraph): mutable.Map[String, mutable.Queue[Edge]] = {
       val edges = graph.edges
-      val inter = graph.intersections.keys
       var mapp: mutable.Map[String, mutable.Queue[Edge]] = mutable.Map()
-      for (key <- inter) {
-        var lis: mutable.Queue[Edge] = mutable.Queue()
-        for (i <- edges) {
-          if (i.from.id == key) {
-            lis.enqueue(i)
-          }
-        }
-        mapp += (key -> lis)
+      for (x <- edges) {
+        var nn = mapp.getOrElse(x.from.id, 1)
+        if (nn != 1) {
+          mapp += (x.from.id -> (mapp(x.from.id) :+ x)) //mutable.Seq(mapp(x.from.id).toSeq,x))
+        } else (
+
+          mapp += (x.from.id -> mutable.Queue(x))
+
+          )
+
       }
-
       mapp
-
     }
 
     var edges = computeOutgoingEdges(graph)
 
-    //var edges: mutable.Queue[mutable.Map[String, mutable.Seq[Edge]]]=outgoingEdges
+
     def mybfs(graph: StreetGraph, start: String): List[Edge] = {
 
 
@@ -257,9 +274,7 @@ if( edges(edges(from)(0).to.id).isEmpty) {
       var toExplore: mutable.Queue[String] = new mutable.Queue[String]()
       toExplore.enqueue(start)
 
-      //var Mapp: Map[Edge, String] = Map()
 
-      //while (toExplore.nonEmpty) {
       var nodeToExplore = toExplore.dequeue()
       val check = outgoingEdges
       var fedge: mutable.Seq[Edge] = edges(nodeToExplore)
@@ -287,7 +302,7 @@ if( edges(edges(from)(0).to.id).isEmpty) {
 
 
         }
-        //if (!explored.contains(edge)) {
+
 
 
       }
