@@ -39,7 +39,9 @@ object MapUtils
        lis= lis :+(i)
      }
     }
-     mapp+=(key->lis)
+      if(!lis.isEmpty) {
+        mapp += (key -> lis)
+      }
   }
 
     mapp
@@ -101,7 +103,7 @@ object MapUtils
 
 var edges =computeOutgoingEdges(graph)
 //var edges: mutable.Queue[mutable.Map[String, mutable.Seq[Edge]]]=outgoingEdges
-   def bfs(graph: StreetGraph, start: String): List[Edge] = {
+   def mybfs(graph: StreetGraph, start: String): List[Edge] = {
 
 
      listofedge=listofedge.empty
@@ -156,18 +158,34 @@ var edges =computeOutgoingEdges(graph)
 
     }
 
-      bfs(graph,from)
+      mybfs(graph,from)
     result=listofedge
-    while(edges(from).length>1){
-
+    while(edges(from).length>=1){
+if( edges(edges(from)(0).to.id).isEmpty) {
       edges(from).dequeue()
-      bfs(graph,from)
-      if( (listofedge.reverse(0).to==to)&&(listofedge.length < result.length) ) {
+}
+      if (edges(from).isEmpty) {
+        return result
+      }
+      mybfs(graph,from)
+      val ni: Int= listofedge.length-1
+      if( (listofedge(ni).to.id==to)&&(listofedge.length < result.length) ) {
         result = listofedge
+        if((edges(from).length == 1 )){
+          edges(from).dequeue()
+        }
       }
       else if (edges(from).length == 1) {
+        mybfs(graph, from)
+        if ((listofedge.length < result.length)) {
+          val n: Int= listofedge.length-1
+          if(listofedge(n).to.id==to){
+            result = listofedge
+        }
+        edges(from).dequeue()
 
       }
+    }
     }
 
 
@@ -185,14 +203,144 @@ var edges =computeOutgoingEdges(graph)
    * 
    * This function should run in O(graph.edges.size * log(graph.intersections.size))
    */
-  def pathWithShortestDistance(
-    graph: StreetGraph,
-    outgoingEdges: mutable.Map[String, mutable.Seq[Edge]],
-    from: String,
-    to: String
-  ): List[Edge] =
-  {
-    ???
+  def pathWithShortestDistance(graph: StreetGraph, outgoingEdges: mutable.Map[String, mutable.Seq[Edge]], from: String, to: String): List[Edge] = {
+
+    var i: Int = 0
+    var listofedge: List[Edge] = List()
+    var result: List[Edge] = List()
+    /* var result:List[Edge]=List()
+    var i: Int=0
+    var edlist = new mutable.Queue[Edge]()
+    var toexplore = new mutable.Queue[Edge]()
+    toexplore.enqueue(outgoingEdges(from)(0))
+    for(inter<-graph.intersections.keys){
+      for(ed<-outgoingEdges(inter)){
+     // listofedge=listofedge :+ed
+      edlist.enqueue(ed)
+      }
+    }
+    while(!edlist.isEmpty){
+      /*if(toexplore(0).to.id==to){
+        result=result :+ toexplore(0)
+      }*/
+
+      result=result :+ toexplore.dequeue()
+    }
+    */
+
+    def computeOutgoingEdges(graph: StreetGraph): mutable.Map[String, mutable.Queue[Edge]] = {
+      val edges = graph.edges
+      val inter = graph.intersections.keys
+      var mapp: mutable.Map[String, mutable.Queue[Edge]] = mutable.Map()
+      for (key <- inter) {
+        var lis: mutable.Queue[Edge] = mutable.Queue()
+        for (i <- edges) {
+          if (i.from.id == key) {
+            lis.enqueue(i)
+          }
+        }
+        mapp += (key -> lis)
+      }
+
+      mapp
+
+    }
+
+    var edges = computeOutgoingEdges(graph)
+
+    //var edges: mutable.Queue[mutable.Map[String, mutable.Seq[Edge]]]=outgoingEdges
+    def mybfs(graph: StreetGraph, start: String): List[Edge] = {
+
+
+      listofedge = listofedge.empty
+      var explored: String = start
+      var toExplore: mutable.Queue[String] = new mutable.Queue[String]()
+      toExplore.enqueue(start)
+
+      //var Mapp: Map[Edge, String] = Map()
+
+      //while (toExplore.nonEmpty) {
+      var nodeToExplore = toExplore.dequeue()
+      val check = outgoingEdges
+      var fedge: mutable.Seq[Edge] = edges(nodeToExplore)
+
+      while (!edges(nodeToExplore).isEmpty) {
+        fedge = edges(nodeToExplore)
+
+
+        if (!edges(nodeToExplore).isEmpty) {
+          val edge = fedge(i)
+          if (edges(nodeToExplore)(0).from.id != from) {
+            edges(nodeToExplore).dequeue()
+          }
+          toExplore.enqueue(edge.to.id)
+
+          explored = edge.to.id
+
+          listofedge = listofedge :+ (edge)
+          nodeToExplore = toExplore.dequeue()
+
+          if (edge.to.id == to) {
+            return listofedge
+            //}
+          }
+
+
+        }
+        //if (!explored.contains(edge)) {
+
+
+      }
+
+      return result
+
+      // }
+
+    }
+    var dist: Double=0.0
+    def dis(edge: List[Edge]): Double={
+      dist=0.0
+   for(ed<-listofedge)(
+
+     dist= dist+ ed.from.distanceTo(ed.to)
+   )
+      return dist
+    }
+    mybfs(graph, from)
+    result = listofedge
+    while (edges(from).length >= 1) {
+      if (edges(edges(from)(0).to.id).isEmpty) {
+        edges(from).dequeue()
+      }
+      if(edges(from).isEmpty){
+        return result
+      }
+      mybfs(graph, from)
+      val ni: Int = listofedge.length - 1
+
+      if ((listofedge(ni).to.id == to) && (dis(listofedge) < dis(result))) {
+        result = listofedge
+        if ((edges(from).length == 1)) {
+          edges(from).dequeue()
+        }
+      }
+      else if (edges(from).length == 1) {
+        mybfs(graph, from)
+        val ch:Double =dis(listofedge)
+        val ch1: Double=dis(result)
+        if((ch < ch1 )){
+          val n: Int = listofedge.length - 1
+          if (listofedge(n).to.id == to) {
+            result = listofedge
+          }
+          edges(from).dequeue()
+
+        }
+      }
+    }
+
+
+    result
   }
 
   /**

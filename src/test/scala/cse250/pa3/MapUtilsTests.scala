@@ -66,8 +66,10 @@ class MapUtilsTests extends AnyFlatSpec {
 
     assert(MapUtils.computeOutgoingEdges(testgraph)("a")== mutable.Seq(ab,ac,ad))
 
-    //assert(MapUtils.pathWithFewestIntersections(testgraph,MapUtils.computeOutgoingEdges(testgraph),"a","d")==Seq(ad))
-    //assert(MapUtils.pathWithShortestDistance(testgraph, MapUtils.computeOutgoingEdges(testgraph), "a", "d") == Seq(ad))
+    assert(MapUtils.pathWithFewestIntersections(testgraph,MapUtils.computeOutgoingEdges(testgraph),"a","d")==Seq(ad))
+  println(ad.from.distanceTo(ad.to))
+    println(ab.from.distanceTo(ab.to)  + bd.from.distanceTo(bd.to))
+   assert(MapUtils.pathWithShortestDistance(testgraph, MapUtils.computeOutgoingEdges(testgraph), "a", "d") == Seq(ad))
 
     var testgraph1 = new StreetGraph
 
@@ -97,8 +99,8 @@ class MapUtilsTests extends AnyFlatSpec {
     testgraph1.edges.append(bd1)
     testgraph1.edges.append(cd1)
 
-   // assert(MapUtils.pathWithFewestIntersections(testgraph1, MapUtils.computeOutgoingEdges(testgraph1), "a", "d") == Seq(ab1,bd1))
-    //assert(MapUtils.pathWithShortestDistance(testgraph1, MapUtils.computeOutgoingEdges(testgraph1), "a", "d") == Seq(ab1,bd1))
+   assert(MapUtils.pathWithFewestIntersections(testgraph1, MapUtils.computeOutgoingEdges(testgraph1), "a", "d") == Seq(ab1,bd1))
+    assert(MapUtils.pathWithShortestDistance(testgraph1, MapUtils.computeOutgoingEdges(testgraph1), "a", "d") == Seq(ab1,bd1))
 
     val e = Intersection("e", 4, 2)
     val f = Intersection("f", 3, 0)
@@ -165,7 +167,7 @@ class MapUtilsTests extends AnyFlatSpec {
 
 
   // println(testgraph.edges(0))
-  //assert(MapUtils.pathWithFewestIntersections(testgraph,MapUtils.computeOutgoingEdges(testgraph),"a","d") == Seq(ab,bc,cd))
+  assert(MapUtils.pathWithFewestIntersections(testgraph,MapUtils.computeOutgoingEdges(testgraph),"a","d") == Seq(ab,bc,cd))
 
 
 //println("ae",c.distanceTo(d))
