@@ -265,7 +265,7 @@ if( edges(edges(from)(0).to.id).isEmpty) {
 
     var edges = computeOutgoingEdges(graph)
 
-
+   // val queue = mutable.PriorityQueue[Seq[Edge]](edges("b").toSeq)(Path.decreasingPathDistanceOrder)
     def mybfs(graph: StreetGraph, start: String): List[Edge] = {
 
 
@@ -299,12 +299,7 @@ if( edges(edges(from)(0).to.id).isEmpty) {
             return listofedge
             //}
           }
-
-
         }
-
-
-
       }
 
       return result
@@ -324,7 +319,12 @@ if( edges(edges(from)(0).to.id).isEmpty) {
     mybfs(graph, from)
     result = listofedge
     while (edges(from).length >= 1) {
+      var pp =edges.getOrElse((edges(from)(0).to.id),1 )
+      if(pp!=1){
       if (edges(edges(from)(0).to.id).isEmpty) {
+        edges(from).dequeue()
+      }
+      }else{
         edges(from).dequeue()
       }
       if(edges(from).isEmpty){
@@ -343,7 +343,7 @@ if( edges(edges(from)(0).to.id).isEmpty) {
         mybfs(graph, from)
         val ch:Double =dis(listofedge)
         val ch1: Double=dis(result)
-        if((ch < ch1 )){
+        if((ch - ch1)<0 ){
           val n: Int = listofedge.length - 1
           if (listofedge(n).to.id == to) {
             result = listofedge

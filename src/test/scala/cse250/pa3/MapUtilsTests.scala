@@ -100,7 +100,7 @@ class MapUtilsTests extends AnyFlatSpec {
     testgraph1.edges.append(cd1)
 
    assert(MapUtils.pathWithFewestIntersections(testgraph1, MapUtils.computeOutgoingEdges(testgraph1), "a", "d") == Seq(ab1,bd1))
-    assert(MapUtils.pathWithShortestDistance(testgraph1, MapUtils.computeOutgoingEdges(testgraph1), "a", "d") == Seq(ab1,bd1))
+   assert(MapUtils.pathWithShortestDistance(testgraph1, MapUtils.computeOutgoingEdges(testgraph1), "a", "d") == Seq(ab1,bd1))
 
     val e = Intersection("e", 4, 2)
     val f = Intersection("f", 3, 0)
